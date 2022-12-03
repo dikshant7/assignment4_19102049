@@ -1,0 +1,121 @@
+#include<iostream>
+using namespace std;
+class treeNode{
+    public:
+    int data;
+    treeNode*left;
+    treeNode*right;
+    treeNode(int x)
+    {
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+
+};
+void insert(treeNode*&root,int value)
+{
+    if(root==NULL)
+    {
+        root=new treeNode(value);
+        cout<<"inserted"<<endl;
+        return;
+    }
+        treeNode*temp=root;
+        treeNode*prev;
+        while(temp!=NULL)
+        {
+            prev=temp;
+            if(temp->data>value)
+            {
+                temp=temp->left;
+            }
+            else{
+                temp=temp->right;
+            }
+        }
+        if(prev->data>value)
+        {
+            prev->left=new treeNode(value);
+        }
+        else{
+            prev->right=new treeNode(value);
+        }
+        cout<<"inserted"<<endl;
+}
+treeNode* deleteNode(treeNode*root,int X)
+{
+     if(root==NULL)
+    {
+        return NULL;
+    }
+    if(root->data>X)
+    {
+        root->left=deleteNode(root->left,X);
+    }
+    else if(root->data<X)
+    {
+        root->right=deleteNode(root->right,X);
+    }
+    else{
+        if(root->left==NULL&&root->right==NULL)
+        {
+            return NULL;
+        }
+        else if(root->left==NULL)
+        {
+            root=root->right;
+            return root;
+        }
+        else if(root->right==NULL)
+        {
+            root=root->left;
+            return root;
+        }
+        else{
+            treeNode*temp=root->right;
+            while(temp->left!=NULL)
+            {
+                temp=temp->left;
+            }
+            root->data=temp->data;
+            root->right=deleteNode(root->right,temp->data);
+            return root;
+        }
+    }
+}
+int main()
+{
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    treeNode*root=new treeNode(arr[0]);
+    for(int i=1;i<n;i++)
+    {
+        treeNode*temp=root;
+        treeNode*prev;
+        while(temp!=NULL)
+        {
+            prev=temp;
+            if(temp->data>arr[i])
+            {
+                temp=temp->left;
+            }
+            else{
+                temp=temp->right;
+            }
+        }
+        if(prev->data>arr[i])
+        {
+            prev->left=new treeNode(arr[i]);
+        }
+        else{
+            prev->right=new treeNode(arr[i]);
+        }
+    }
+    return 0;
+}
